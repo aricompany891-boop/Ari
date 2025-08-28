@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="ku">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ari Store - یاری و بەرنامەکانی ئایفۆن</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #007AFF;
+            --secondary: #5856D6;
+            --accent: #FF2D55;
+            --dark: #1F1F1F;
+            --light: #F5F5F7;
+            --success: #34C759;
+            --warning: #FF9500;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: #333;
+            direction: rtl;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* پەڕەی چوونە ناوەوە */
+        #login-page {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .login-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .app-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .login-box h2 {
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .login-box p {
+            margin-bottom: 25px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: white;
+            color: var(--primary);
+            padding: 15px 25px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        
+        .btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .error-message {
+            color: #ffcc00;
+            margin-top: 15px;
+            display: none;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        .key-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            font-size: 0.9rem;
+        }
+        
+        .key-info h3 {
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+        
+        /* پەڕەی سەرەکی */
+        #main-page {
+            display: none;
+        }
+        
+        /* هێدەر */
+        header {
+            background: white;
+            color: var(--dark);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            height: 40px;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .logo span {
+            color: var(--primary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        nav a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 5px 10px;
+            border-radius: 10px;
+        }
+        
+        nav a:hover {
+            color: var(--primary);
+            background: rgba(0, 122, 255, 0.1);
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .search-box {
+            display: flex;
+            background: var(--light);
+            border-radius: 25px;
+            overflow: hidden;
+        }
+        
+        .search-box input {
+            border: none;
+            padding: 10px 15px;
+            width: 200px;
+            outline: none;
+            background: transparent;
+        }
+        
+        .search-box button {
+            background: transparent;
+            border: none;
+            padding: 10px 15px;
+            color: var(--dark);
+            cursor: pointer;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .icon-btn {
+            background: var(--light);
+            color: var(--dark);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .icon-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* سەردێڕی سەرەکی */
+        .hero {
+            background: linear-gradient(to right, #007AFF, #5856D6);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 40px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        /* بەشی پەرەپێدان */
+        .categories {
+            padding: 40px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--dark);
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 50%;
+            transform: translateX(50%);
+            width: 80px;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .category-img {
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .category-img i {
+            font-size: 3rem;
+            color: var(--primary);
+        }
+        
+        .category-info h3 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        /* بەشی یاری و بەرنامەکان */
+        .apps {
+            padding: 40px 0;
+            background: var(--light);
+        }
+        
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .app-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .app-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .app-img {
+            height: 200px;
+            background: linear-gradient(135deg, #007AFF, #00C4FF);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .app-img i {
+            font-size: 4rem;
+            color: white;
+        }
+        
+        .app-info {
+            padding: 20px;
+        }
+        
+        .app-info h3 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .app-info p {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .app-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 15px;
+            color: #FF9500;
+        }
+        
+        .app-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .app-price {
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .download-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .download-btn:hover {
+            background: var(--secondary);
+        }
+        
+        /* پەڕەپێدەران */
+        .features {
+            padding: 60px 0;
+            background: white;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        /* پێپێدەر */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+            color: var(--accent);
+        }
+        
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--accent);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column a:hover {
+            color: var(--accent);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s;
+            color: white;
+        }
+        
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+        
+        /* وەڵامدانەوەیی بۆ مۆبایل */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .category-grid,
+            .app-grid,
+            .feature-grid,
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .login-box {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- پەڕەی چوونە ناوەوە -->
+    <div id="login-page">
+        <div class="login-box">
+            <div class="app-icon">
+                <i class="fas fa-store"></i>
+            </div>
+            <h2>بەخێربێیت بۆ Ari Store</h2>
+            <p>تکایە کیلەی چوونە ناوەوە بنووسە بۆ چوونە ناوەوە. کیلەکە تایبەتە بە ئامێرەکەت و بۆ ماوەی یەک مانگ چالاک دەمێنێتەوە.</p>
+            
+            <div class="input-group">
+                <label for="access-key">کیلەی چوونە ناوەوە</label>
+                <input type="password" id="access-key" placeholder="کیلەی تایبەتی خۆت بنووسە">
+            </div>
+            
+            <button class="btn" onclick="checkAccessKey()">چوونە ناوەوە</button>
+            
+            <div class="error-message" id="error-message">
+                کیلەی چوونە ناوەوە هەڵەیە یان بەسەرچووە! تکایە پەیوەندی بە بەرێوەبەرەوە بکە.
+            </div>
+            
+            <div class="key-info">
+                <h3>زانیاری کیلە</h3>
+                <p>کیلەی چوونە ناوەوە تایبەتە بە ئامێرەکەت و بۆ ماوەی <strong>٣٠ ڕۆژ</strong> چالاک دەمێنێتەوە. دوای ئەو ماوەیە پێویستت بە کیلەیەکی نوێ دەبێت.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- پەڕەی سەرەکی -->
+    <div id="main-page">
+        <!-- هێدەر -->
+        <header>
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <i class="fas fa-store" style="font-size: 1.8rem; color: #007AFF;"></i>
+                        <h1><span>Ari</span> Store</h1>
+                    </div>
+                    
+                    <nav>
+                        <ul>
+                            <li><a href="#">سەرەکی</a></li>
+                            <li><a href="#">یاریەکان</a></li>
+                            <li><a href="#">بەرنامەکان</a></li>
+                            <li><a href="#">پەرەپێدراوەکان</a></li>
+                            <li><a href="#">پڕفرۆشترینەکان</a></li>
+                        </ul>
+                    </nav>
+                    
+                    <div class="header-actions">
+                        <div class="search-box">
+                            <input type="text" placeholder="گەڕان بەدوای یاری و بەرنامە...">
+                            <button><i class="fas fa-search"></i></button>
+                        </div>
+                        
+                        <div class="user-actions">
+                            <button class="icon-btn">
+                                <i class="fas fa-user"></i>
+                            </button>
+                            <button class="icon-btn">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- سەردێڕی سەرەکی -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2>یاری و بەرنامەکانی ئایفۆن</h2>
+                    <p>باشترین یاری و بەرنامەکان بۆ ئایفۆن لە ئێستادا بە نرخی کەم</p>
+                    <button class="btn" style="background: white; color: #007AFF;">بینینی زیاتر</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- پەرەپێدان -->
+        <section class="categories">
+            <div class="container">
+                <h2 class="section-title">پەرەپێدانەکان</h2>
+                
+                <div class="category-grid">
+                    <div class="category-card">
+                        <div class="category-img">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <div class="category-info">
+                            <h3>یاریەکان</h3>
+                            <p>یاریە جیاوازەکان</p>
+                        </div>
+                    </div>
+                    
+                    <div class="category-card">
+                        <div class="category-img">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="category-info">
+                            <h3>خواردن</h3>
+                            <p>بەرنامەکانی خواردن</p>
+                        </div>
+                    </div>
+                    
+                    <div class="category-card">
+                        <div class="category-img">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <div class="category-info">
+                            <h3>مۆسیقا</h3>
+                            <p>بەرنامەکانی مۆسیقا</p>
+                        </div>
+                    </div>
+                    
+                    <div class="category-card">
+                        <div class="category-img">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="category-info">
+                            <h3>پەروەردەیی</h3>
+                            <p>بەرنامە پەروەردەییەکان</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- بەشی یاری و بەرنامەکان -->
+        <section class="apps">
+            <div class="container">
+                <h2 class="section-title">یاری و بەرنامەکان</h2>
+                
+                <div class="app-grid">
+                    <div class="app-card">
+                        <div class="app-img">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <div class="app-info">
+                            <h3>PUBG Mobile</h3>
+                            <p>یاریەکی ئاکشن و سەرکێشی</p>
+                            <div class="app-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>٤.٥</span>
+                            </div>
+                            <div class="app-actions">
+                                <div class="app-price">بەخشراو</div>
+                                <button class="download-btn">داگرتن</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="app-card">
+                        <div class="app-img" style="background: linear-gradient(135deg, #5856D6, #AF52DE);">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <div class="app-info">
+                            <h3>Asphalt 9</h3>
+                            <p>یاریەکی خێرایی و ڕاکردن</p>
+                            <div class="app-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>٤.٠</span>
+                            </div>
+                            <div class="app-actions">
+                                <div class="app-price">بەخشراو</div>
+                                <button class="download-btn">داگرتن</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="app-card">
+                        <div class="app-img" style="background: linear-gradient(135deg, #FF2D55, #FF3B30);">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="app-info">
+                            <h3>TikTok</h3>
+                            <p>بەرنامەی ڤیدیۆی کورت</p>
+                            <div class="app-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>٤.٨</span>
+                            </div>
+                            <div class="app-actions">
+                                <div class="app-price">بەخشراو</div>
+                                <button class="download-btn">داگرتن</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="app-card">
+                        <div class="app-img" style="background: linear-gradient(135deg, #34C759, #28CD41);">
+                            <i class="fas fa-message"></i>
+                        </div>
+                        <div class="app-info">
+                            <h3>WhatsApp</h3>
+                            <p>پەیامناردنی خێرا</p>
+                            <div class="app-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>٤.٤</span>
+                            </div>
+                            <div class="app-actions">
+                                <div class="app-price">بەخشراو</div>
+                                <button class="download-btn">داگرتن</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- پەڕەپێدەران -->
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">پێشکەوتوویەکانی ئێمە</h2>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>سەلامەتی</h3>
+                        <p>هەموو بەرنامەکان پێش دابەزاندن پشکنێنراوە</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3>خێرایی</h3>
+                        <p>داگرتنی خێرا بەهۆی خزمەتگوزاریەکانی CDN</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>کوالیتی</h3>
+                        <p>تەنها باشترین یاری و بەرنامەکان</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-sync"></i>
+                        </div>
+                        <h3>نوێکردنەوە</h3>
+                        <p>نوێکردنەوەی بەردەوام بۆ هەموو بەرنامەکان</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- پێپێدەر -->
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-column">
+                        <h3>دەربارەی ئێمە</h3>
+                        <p>Ari Store فرۆشگایەکی تایبەتە بە یاری و بەرنامەکانی ئایفۆن کە لە ساڵی ٢٠٢٣ دامەزراوە.</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3>پەیوانییەکان</h3>
+                        <ul>
+                            <li><a href="#">سەرەکی</a></li>
+                            <li><a href="#">یاریەکان</a></li>
+                            <li><a href="#">بەرنامەکان</a></li>
+                            <li><a href="#">پەیوەندی</a></li>
+                            <li><a href="#">مەرجەکان</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3>یارمەتی</h3>
+                        <ul>
+                            <li><a href="#">پرسیارە باوەکان</a></li>
+                            <li><a href="#">پشتیوانی</a></li>
+                            <li><a href="#">مەرجی کڕین</a></li>
+                            <li><a href="#">پاراستنی نهێنی</a></li>
+                            <li><a href="#">ئەکاونتی</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3>پەیوەندی</h3>
+                        <ul>
+                            <li><i class="fas fa-map-marker-alt"></i> هەولێر, کوردستان</li>
+                            <li><i class="fas fa-phone"></i> ٠٧٥٠ ١٢٣ ٤٥ ٦٧</li>
+                            <li><i class="fas fa-envelope"></i> aresartip10@gmail.com</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="copyright">
+                    <p>© ٢٠٢٥ Ari Store. هەموو مافەکان پارێزراوە</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // کۆدی JavaScript بۆ چوونە ناوەوە
+        function generateDeviceKey() {
+            // دروستکردنی کیلەی تایبەت بە ئامێرەکە
+            const userAgent = navigator.userAgent;
+            const platform = navigator.platform;
+            const language = navigator.language;
+            
+            // دروستکردنی کیلەیەکی ناسێنەر بە هۆی زانیاریەکانی ئامێر
+            const keyBase = `${userAgent}-${platform}-${language}`;
+            let hash = 0;
+            
+            for (let i = 0; i < keyBase.length; i++) {
+                const char = keyBase.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32bit integer
+            }
+            
+            return `ARI-${Math.abs(hash).toString(16).toUpperCase().substring(0, 8)}`;
+        }
+        
+        function checkAccessKey() {
+            const accessKey = document.getElementById('access-key').value;
+            const errorMessage = document.getElementById('error-message');
+            const loginPage = document.getElementById('login-page');
+            const mainPage = document.getElementById('main-page');
+            
+            // دروستکردنی کیلەی ئامێر
+            const deviceKey = generateDeviceKey();
+            
+            // کیلەی چوونە ناوەوە (لە ئێستادا کیلەی ئامێر + "-2023"ە)
+            const validKey = `${deviceKey}-2023`;
+            
+            if (accessKey === validKey) {
+                loginPage.style.display = 'none';
+                mainPage.style.display = 'block';
+                errorMessage.style.display = 'none';
+                
+                // هەڵگرتنی کاتەکە لە کۆکی
+                const expirationDate = new Date();
+                expirationDate.setDate(expirationDate.getDate() + 30); // 30 ڕۆژ
+                document.cookie = `appStoreAccess=true; expires=${expirationDate.toUTCString()}; path=/`;
+            } else {
+                errorMessage.style.display = 'block';
+            }
+        }
+        
+        // پشکنینی کۆکی بۆ بینینی ئەگەر کیلەکە هەر چالاکە
+        function checkCookie() {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie === 'appStoreAccess=true') {
+                    document.getElementById('login-page').style.display = 'none';
+                    document.getElementById('main-page').style.display = 'block';
+                    break;
+                }
+            }
+        }
+        
+        // پشکنینی کۆکی کاتێ پەڕە بار دەبێتەوە
+        window.onload = function() {
+            checkCookie();
+            
+            // نیشاندانی کیلەی ئامێر بۆ بینەر (لە ڕێیەتییەکی ڕاستەقینەدا ئەمە نەنێردرێت)
+            console.log("کیلەی ئامێرەکەت:", generateDeviceKey() + "-2023");
+        };
+        
+        // چەکدانی چوونە ناوەوە بە Enter
+        document.getElementById('access-key').addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                checkAccessKey();
+            }
+        });
+        
+        // کاریگەری داگرتن بۆ بەرنامەکان
+        document.querySelectorAll('.download-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const originalText = this.textContent;
+                this.textContent = 'دادەگیرێت...';
+                this.style.background = '#34C759';
+                
+                setTimeout(() => {
+                    this.textContent = 'داگیرا!';
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                        this.style.background = '';
+                    }, 2000);
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>
