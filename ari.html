@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="ku">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ari Store - سیستەمی یاری و بەرنامەکان</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #8e44ad;
+            --secondary: #9b59b6;
+            --accent: #e74c3c;
+            --dark: #2c3e50;
+            --light: #f9f9f9;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: #333;
+            direction: rtl;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+        }
+        
+        .logo h1 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .logo span {
+            color: var(--accent);
+        }
+        
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: 10px 10px 0 0;
+            overflow: hidden;
+            margin-bottom: 0;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: #f1f1f1;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab.active {
+            background: white;
+            border-bottom: 3px solid var(--primary);
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border 0.3s;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-success {
+            background: var(--success);
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+        }
+        
+        .key-display {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            border: 2px dashed var(--primary);
+        }
+        
+        .generated-key {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 15px 0;
+            direction: ltr;
+            word-break: break-all;
+        }
+        
+        .key-info {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
+        .keys-list {
+            margin-top: 30px;
+        }
+        
+        .keys-list h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
+        
+        .key-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .key-code {
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: var(--dark);
+        }
+        
+        .key-details {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .key-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            background: #f1f1f1;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .action-btn:hover {
+            background: #e1e1e1;
+        }
+        
+        .login-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .login-icon {
+            text-align: center;
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .login-message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .success {
+            background: #e6f7ee;
+            color: var(--success);
+            border: 1px solid #c3e6d2;
+        }
+        
+        .error {
+            background: #fee;
+            color: var(--danger);
+            border: 1px solid #f5c6cb;
+        }
+        
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .app-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .app-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .app-img {
+            height: 150px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+        
+        .app-info {
+            padding: 15px;
+        }
+        
+        .app-info h3 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .app-info p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .download-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+        }
+        
+        .download-btn:hover {
+            background: var(--secondary);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .key-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .key-actions {
+                align-self: flex-end;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .app-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-store"></i>
+                <h1><span>Ari</span> Store</h1>
+            </div>
+            <p>سیستەمی یاری و بەرنامەکانی مۆبایل</p>
+        </header>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('generate')">دروستکردنی کیلە</div>
+            <div class="tab" onclick="switchTab('login')">چوونە ناوەوە</div>
+            <div class="tab" onclick="switchTab('apps')">یاری و بەرنامەکان</div>
+            <div class="tab" onclick="switchTab('manage')">بەڕێوەبردنی کیلەکان</div>
+        </div>
+        
+        <div id="generate-tab" class="tab-content active">
+            <h2>دروستکردنی کیلەی نوێ</h2>
+            <div class="form-group">
+                <label for="customer-name">ناوی کڕیار</label>
+                <input type="text" id="customer-name" placeholder="ناوی کڕیار بنووسە">
+            </div>
+            
+            <div class="form-group">
+                <label for="device-type">جۆری ئامێر</label>
+                <select id="device-type">
+                    <option value="iphone">ئایفۆن</option>
+                    <option value="ipad">ئایپاد</option>
+                    <option value="android">ئەندرۆید</option>
+                    <option value="other">ئامێری تر</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="validity-days">ماوەی چالاکبوون (ڕۆژ)</label>
+                <input type="number" id="validity-days" value="30" min="1" max="365">
+            </div>
+            
+            <button class="btn" onclick="generateKey()">دروستکردنی کیلە</button>
+            
+            <div class="key-display" id="key-display" style="display: none;">
+                <h3>کیلەی دروستکراو</h3>
+                <div class="generated-key" id="generated-key"></div>
+                <div class="key-info" id="key-info"></div>
+                <button class="btn btn-success" onclick="copyKey()">کۆپی کردنی کیلە</button>
+                <button class="btn" onclick="testKey()">تاقیکردنەوەی کیلە</button>
+            </div>
+        </div>
+        
+        <div id="login-tab" class="tab-content">
+            <div class="login-container">
+                <div class="login-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h2 style="text-align: center;">چوونە ناوەوە بۆ Ari Store</h2>
+                
+                <div class="form-group">
+                    <label for="access-key">کیلەی چوونە ناوەوە</label>
+                    <input type="text" id="access-key" placeholder="کیلەی خۆت ئێرە بلێژە">
+                </div>
+                
+                <button class="btn" style="width: 100%;" onclick="validateKey()">چوونە ناوەوە</button>
+                
+                <div id="login-message" class="login-message"></div>
+                
+                <div style="margin-top: 20px; text-align: center;">
+                    <p>کیلەی چوونە ناوەوەت نییە؟</p>
+                    <button class="btn btn-warning" onclick="switchTab('generate')">دروستکردنی کیلەی نوێ</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="apps-tab" class="tab-content">
+            <h2>یاری و بەرنامەکان</h2>
+            <p>ئەمە لیستی یاری و بەرنامەکانی بەردەستە بۆ داگرتن. تکایە پێش داگرتن چوونە ناوەوە بکە.</p>
+            
+            <div class="app-grid">
+                <div class="app-card">
+                    <div class="app-img">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="app-info">
+                        <h3>PUBG Mobile</h3>
+                        <p>یاریەکی ئاکشن و سەرکێشی کە لە جیهانی کراوەدا ڕوودەدات.</p>
+                        <button class="download-btn">داگرتن</button>
+                    </div>
+                </div>
+                
+                <div class="app-card">
+                    <div class="app-img" style="background: linear-gradient(45deg, #e74c3c, #e67e22);">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="app-info">
+                        <h3>TikTok</h3>
+                        <p>بەرنامەیەک بۆ بینینی و دروستکردنی ڤیدیۆی کورت.</p>
+                        <button class="download-btn">داگرتن</button>
+                    </div>
+                </div>
+                
+                <div class="app-card">
+                    <div class="app-img" style="background: linear-gradient(45deg, #2ecc71, #27ae60);">
+                        <i class="fas fa-message"></i>
+                    </div>
+                    <div class="app-info">
+                        <h3>WhatsApp</h3>
+                        <p>پەیامناردنی خێرا و ئاسان بە ئینتەرنێت.</p>
+                        <button class="download-btn">داگرتن</button>
+                    </div>
+                </div>
+                
+                <div class="app-card">
+                    <div class="app-img" style="background: linear-gradient(45deg, #3498db, #2980b9);">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="app-info">
+                        <h3>Asphalt 9</h3>
+                        <p>یاریەکی ڕاکردنی ئۆتۆمبێل بە گرافیکی سەرەزموو.</p>
+                        <button class="download-btn">داگرتن</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="manage-tab" class="tab-content">
+            <h2>بەڕێوەبردنی کیلەکان</h2>
+            <div class="keys-list">
+                <h3>کیلەکانی دروستکراوی ڕابردوو</h3>
+                <div id="keys-container">
+                    <!-- کیلەکانی ڕابردوو لێرە دەردەکەون -->
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 Ari Store. هەموو مافەکان پارێزراوە | سیستەمی کیلەی چوونە ناوەوە</p>
+        </footer>
+    </div>
+
+    <script>
+        // فەراموشکراوەکانی کلیل
+        let keys = JSON.parse(localStorage.getItem('ariStoreKeys')) || [];
+        
+        // نمایشدانەی کیلەکان کاتێ پەڕە بار دەبێتەوە
+        window.onload = function() {
+            displayKeys();
+            document.getElementById('customer-name').focus();
+        };
+        
+        // گۆڕینی tab
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            const tabIndex = {
+                'generate': 1,
+                'login': 2,
+                'apps': 3,
+                'manage': 4
+            };
+            
+            document.querySelector(`.tab:nth-child(${tabIndex[tabName]})`).classList.add('active');
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+        }
+        
+        // فەنکشنی دروستکردنی کیلە
+        function generateKey() {
+            const customerName = document.getElementById('customer-name').value;
+            const deviceType = document.getElementById('device-type').value;
+            const validityDays = parseInt(document.getElementById('validity-days').value);
+            
+            if (!customerName) {
+                alert('تکایە ناوی کڕیار بنووسە');
+                return;
+            }
+            
+            // دروستکردنی بەشی هەڕەمەکی کیلە
+            const randomPart = Math.random().toString(36).substring(2, 10).toUpperCase();
+            
+            // دروستکردنی کیلەی تەواو
+            const key = `ARI-${randomPart}-2023`;
+            
+            // هەژمارکردنی ڕێکەتی بەسەرچوون
+            const createdDate = new Date();
+            const expiryDate = new Date();
+            expiryDate.setDate(expiryDate.getDate() + validityDays);
+            
+            // دروستکردنی کیلە object
+            const keyObject = {
+                key: key,
+                customer: customerName,
+                device: deviceType,
+                created: createdDate.toISOString(),
+                expiry: expiryDate.toISOString(),
+                used: false
+            };
+            
+            // زیادکردنی کیلە بە لیستەکە
+            keys.push(keyObject);
+            
+            // پاشەکەوتکردنی لە localStorage
+            localStorage.setItem('ariStoreKeys', JSON.stringify(keys));
+            
+            // نیشاندانی کیلەکە
+            document.getElementById('generated-key').textContent = key;
+            document.getElementById('key-info').textContent = 
+                `بۆ: ${customerName} | ئامێر: ${getDeviceName(deviceType)} | بەسەرچوون: ${expiryDate.toLocaleDateString('fa-IR')}`;
+            document.getElementById('key-display').style.display = 'block';
+            
+            // نوێکردنەوەی لیستی کیلەکان
+            displayKeys();
+        }
+        
+        // فەنکشنی کۆپی کردنی کیلە
+        function copyKey() {
+            const keyText = document.getElementById('generated-key').textContent;
+            navigator.clipboard.writeText(keyText).then(() => {
+                alert('کیلەکە کۆپی کرایە سクリینبۆرد');
+            }).catch(err => {
+                console.error('هەڵە لە کۆپی کردنی کیلە: ', err);
+            });
+        }
+        
+        // فەنکشنی تاقیکردنەوەی کیلە
+        function testKey() {
+            const key = document.getElementById('generated-key').textContent;
+            document.getElementById('access-key').value = key;
+            switchTab('login');
+            validateKey();
+        }
+        
+        // فەنکشنی پشکنینی کیلە
+        function validateKey() {
+            const inputKey = document.getElementById('access-key').value;
+            const messageDiv = document.getElementById('login-message');
+            
+            if (!inputKey) {
+                showMessage('تکایە کیلەی چوونە ناوەوە بنووسە', 'error');
+                return;
+            }
+            
+            // گەڕان بەدوای کیلەکە
+            const keyIndex = keys.findIndex(k => k.key === inputKey);
+            
+            if (keyIndex === -1) {
+                showMessage('کیلەکە نەدۆزرایەوە یان هەڵەیە', 'error');
+                return;
+            }
+            
+            const keyObject = keys[keyIndex];
+            const expiryDate = new Date(keyObject.expiry);
+            const now = new Date();
+            
+            if (now > expiryDate) {
+                showMessage('کیلەکە بەسەرچووە', 'error');
+                return;
+            }
+            
+            if (keyObject.used) {
+                showMessage('کیلەکە پێشتر بەکارهێنراوە', 'error');
+                return;
+            }
+            
+            // نیشاندانی پەیامی سەرکەوتوویی
+            showMessage(`بەخێربێیت! کیلەکە چالاک کرایەوە بۆ ${keyObject.customer} - ${getDeviceName(keyObject.device)}`, 'success');
+            
+            // نیشانەکردنی کیلە وەک بەکارهێنراو
+            keys[keyIndex].used = true;
+            keys[keyIndex].usedAt = new Date().toISOString();
+            localStorage.setItem('ariStoreKeys', JSON.stringify(keys));
+            
+            // نوێکردنەوەی لیستی کیلەکان
+            displayKeys();
+        }
+        
+        // فەنکشنی نیشاندانی پەیام
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById('login-message');
+            messageDiv.textContent = message;
+            messageDiv.className = `login-message ${type}`;
+            messageDiv.style.display = 'block';
+        }
+        
+        // فەنکشنی وەرگرتنی ناوی ئامێر
+        function getDeviceName(deviceType) {
+            const devices = {
+                'iphone': 'ئایفۆن',
+                'ipad': 'ئایپاد',
+                'android': 'ئەندرۆید',
+                'other': 'ئامێری تر'
+            };
+            return devices[deviceType] || 'ئامێری نەناسراو';
+        }
+        
+        // فەنکشنی نیشاندانی کیلەکان
+        function displayKeys() {
+            const keysContainer = document.getElementById('keys-container');
+            keysContainer.innerHTML = '';
+            
+            if (keys.length === 0) {
+                keysContainer.innerHTML = '<p>هیچ کیلەیەک بوونی نییە</p>';
+                return;
+            }
+            
+            keys.forEach((keyObj, index) => {
+                const createdDate = new Date(keyObj.created).toLocaleDateString('fa-IR');
+                const expiryDate = new Date(keyObj.expiry).toLocaleDateString('fa-IR');
+                const isExpired = new Date() > new Date(keyObj.expiry);
+                const isUsed = keyObj.used;
+                
+                const keyItem = document.createElement('div');
+                keyItem.className = 'key-item';
+                keyItem.innerHTML = `
+                    <div>
+                        <div class="key-code">${keyObj.key}</div>
+                        <div class="key-details">
+                            کەسانی: ${keyObj.customer} - ${getDeviceName(keyObj.device)} | 
+                            دروستکراو: ${createdDate} | بەسەرچوو: ${expiryDate}
+                            ${isUsed ? ' | <span style="color: var(--success);">بەکارهێنراو</span>' : ''}
+                            ${isExpired ? ' | <span style="color: var(--danger);">بەسەرچوو</span>' : ''}
+                        </div>
+                    </div>
+                    <div class="key-actions">
+                        <button class="action-btn" onclick="copySpecificKey('${keyObj.key}')" title="کۆپی کردن"><i class="fas fa-copy"></i></button>
+                        <button class="action-btn" onclick="deleteKey(${index})" title="سڕینەوە"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                
+                keysContainer.appendChild(keyItem);
+            });
+        }
+        
+        // فەنکشنی کۆپی کردنی کیلەی دیاریکراو
+        function copySpecificKey(key) {
+            navigator.clipboard.writeText(key).then(() => {
+                alert('کیلەکە کۆپی کرایە سクリینبۆرد');
+            }).catch(err => {
+                console.error('هەڵە لە کۆپی کردنی کیلە: ', err);
+            });
+        }
+        
+        // فەنکشنی سڕینەوەی کیلە
+        function deleteKey(index) {
+            if (confirm('ئایا دڵنیایت دەتەوێت ئەم کیلەیە بسڕیتەوە؟')) {
+                keys.splice(index, 1);
+                localStorage.setItem('ariStoreKeys', JSON.stringify(keys));
+                displayKeys();
+            }
+        }
+        
+        // کاردانەوەی دوگمەی داگرتن
+        document.querySelectorAll('.download-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const appName = this.parentElement.querySelector('h3').textContent;
+                alert(`پێویستت بە چوونە ناوەوە هەیە بۆ داگرتی ${appName}`);
+                switchTab('login');
+            });
+        });
+    </script>
+</body>
+</html>
